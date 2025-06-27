@@ -4,24 +4,16 @@
 typedef struct Arma {
     int id;
     char nome[50];
-    char tipo[30];
-    int dano;
-    int raridade;
+    char raridade[20];
     float preco;
+    struct Arma *esq, *dir;
 } Arma;
 
-typedef struct NodoArma {
-    Arma arma;
-    struct NodoArma* esquerda;
-    struct NodoArma* direita;
-} NodoArma;
-
-// Funções do catálogo
-NodoArma* inserir_arma(NodoArma* raiz, Arma nova);
-NodoArma* buscar_arma(NodoArma* raiz, char nome[]);
-void listar_armas(NodoArma* raiz);
-void liberar_arvore(NodoArma* raiz);
-
-void listar_armas_por_raridade(NodoArma* raiz);
+Arma* carregarArmas(const char *nomeArquivo);
+void inserirArmaNaArvore(Arma **raiz, Arma *nova);
+void listarArmasPorNome(Arma *raiz);
+void listarArmasPorRaridade(Arma *raiz);
+Arma* buscarArmaPorNome(Arma *raiz, const char *nome);
+void liberarArvoreArmas(Arma *raiz);
 
 #endif
