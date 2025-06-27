@@ -1,25 +1,39 @@
 #ifndef USUARIOS_H
 #define USUARIOS_H
 
-#include "itens.h"
+#include "armas.h"
 
-typedef struct Inventario {
-    Item* item;
-    struct Inventario* prox;
-} Inventario;
+typedef struct InventarioNode {
+    Arma *arma;
+    struct InventarioNode *prox;
+} InventarioNode;
 
 typedef struct Usuario {
     char nome[50];
     char email[50];
-    char senha[20];
-    Inventario* inventario;
-    struct Usuario* prox;
+    InventarioNode *inventario;
+    struct Usuario *prox;
 } Usuario;
 
-Usuario* cadastrar_usuario(Usuario* lista, char nome[], char email[], char senha[]);
-Usuario* login(Usuario* lista, char email[], char senha[]);
-void mostrar_inventario(Usuario* usuario);
-void adicionar_item_inventario(Usuario* usuario, Item* item);
-void liberar_usuarios(Usuario* lista);
+typedef struct CarrinhoNode {
+    Arma *arma;
+    struct CarrinhoNode *prox;
+} CarrinhoNode;
+
+typedef struct Sessao {
+    Usuario *usuario;
+    CarrinhoNode *carrinhoInicio, *carrinhoFim;
+} Sessao;
+
+Usuario* carregarUsuarios(const char *nomeArquivo);
+Usuario* loginOuCadastro(Usuario **lista, const char *email, const char *nome);
+void adicionarAoInventario(Usuario *usuario, Arma *arma);
+void salvarInventario(Usuario *usuario);
+void exibirInventario(Usuario *usuario);
+void recomendarArmas(Usuario *usuario);
+void liberarUsuarios(Usuario *lista);
+void carregarInventario(Usuario *usuario);
+int checarNoInventario(Usuario *usuario, int idArma);
+
 
 #endif
